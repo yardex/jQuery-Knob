@@ -706,7 +706,7 @@
         this.draw = function () {
 
             var c = this.g,                 // context
-                a = this.angle(this.cv)    // Angle
+                a = this.angle(this.cv)     // Angle
                 , sat = this.startAngle     // Start angle
                 , eat = sat + a             // End angle
                 , sa, ea                    // Previous angles
@@ -719,7 +719,7 @@
             this.o.cursor
                 && (sat = eat - this.cursorExt)
                 && (eat = eat + this.cursorExt);
-
+            
             c.beginPath();
                 c.strokeStyle = this.o.bgColor;
                 c.arc(this.xy, this.xy, this.radius, this.endAngle - 0.00001, this.startAngle + 0.00001, true);
@@ -738,10 +738,23 @@
                 c.stroke();
                 r = (this.cv == this.v);
             }
-
+            /*
             c.beginPath();
                 c.strokeStyle = r ? this.o.fgColor : this.fgColor ;
                 c.arc(this.xy, this.xy, this.radius, sat - 0.00001, eat + 0.00001, false);
+            c.stroke();
+             */
+            c.beginPath();
+                c.fillStyle = r ? this.o.fgColor : this.fgColor ;
+                c.arc(this.xy, this.xy, this.radius/5, this.endAngle - 0.00001, this.startAngle + 0.00001, true);
+            c.fill();
+            
+            c.beginPath();
+                c.lineWidth = this.lineWidth / 4;
+                var length = 50;
+                c.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                c.moveTo(this.xy, this.xy);
+                c.lineTo(this.xy + (this.radius*(Math.sin(a))), this.xy - (this.radius*(Math.cos(a))));
             c.stroke();
         };
 
