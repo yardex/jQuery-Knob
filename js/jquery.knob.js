@@ -724,7 +724,7 @@
                 c.strokeStyle = this.o.bgColor;
                 c.arc(this.xy, this.xy, this.radius, this.endAngle - 0.00001, this.startAngle + 0.00001, true);
             c.stroke();
-
+            /*
             if (this.o.displayPrevious) {
                 ea = this.startAngle + this.angle(this.v);
                 sa = this.startAngle;
@@ -738,24 +738,48 @@
                 c.stroke();
                 r = (this.cv == this.v);
             }
-            /*
+            
             c.beginPath();
                 c.strokeStyle = r ? this.o.fgColor : this.fgColor ;
                 c.arc(this.xy, this.xy, this.radius, sat - 0.00001, eat + 0.00001, false);
             c.stroke();
-             */
+            */
             c.beginPath();
                 c.fillStyle = r ? this.o.fgColor : this.fgColor ;
                 c.arc(this.xy, this.xy, this.radius/5, this.endAngle - 0.00001, this.startAngle + 0.00001, true);
             c.fill();
+            
+            
             
             c.beginPath();
                 c.lineWidth = this.lineWidth / 4;
                 var length = 50;
                 c.strokeStyle = r ? this.o.fgColor : this.fgColor ;
                 c.moveTo(this.xy, this.xy);
-                c.lineTo(this.xy + (this.radius*(Math.sin(a))), this.xy - (this.radius*(Math.cos(a))));
+                c.lineTo(this.xy + (this.radius*(Math.cos(eat))), this.xy + (this.radius*(Math.sin(eat))));
             c.stroke();
+            
+            c.save();
+  
+            var ticks = [0,20,40,60,80,100,120,140];
+            var label;
+            var angle;
+            var fontSize = this.lineWidth / 2;
+            var labelWidth;
+            for(var i = 0; i < ticks.length; i++){
+                if(ticks[i] < this.o.min || ticks[i] > this.o.max ) continue;
+                angle = this.angle(ticks[i]);
+                console.log(angle);
+                label = ticks[i].toFixed();
+                c.save();
+                c.translate(this.xy + (this.radius*(Math.cos(sat + angle))), this.xy + (this.radius*(Math.sin(sat + angle))));
+                c.font = fontSize + "px Arial";
+                labelWidth = c.measureText(label).width;
+                c.fillText(label, 0 - (labelWidth/2), 0 + (fontSize/2));
+                c.restore();
+            }
+            c.restore();
+                     
         };
 
         this.cancel = function () {
